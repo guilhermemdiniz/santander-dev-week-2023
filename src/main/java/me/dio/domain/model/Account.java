@@ -1,16 +1,40 @@
 package me.dio.domain.model;
 
-public class Account {
-    public String number;
-    public String agency;
-    public Float balance;
-    public Float limit;
+import jakarta.persistence.*;
 
-    public Account(String number, String agency, Float balance, Float limit) {
+import java.math.BigDecimal;
+
+@Entity(name = "account")
+public class Account {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(unique = true)
+    private String number;
+
+    private String agency;
+
+    @Column(scale = 13, precision = 2)
+    private BigDecimal balance;
+
+    @Column(name = "additional_limit", scale = 13, precision = 2)
+    private BigDecimal limit;
+
+    public Account(Long id, String number, String agency, BigDecimal balance, BigDecimal limit) {
+        this.id = id;
         this.number = number;
         this.agency = agency;
         this.balance = balance;
         this.limit = limit;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getNumber() {
@@ -29,19 +53,19 @@ public class Account {
         this.agency = agency;
     }
 
-    public Float getBalance() {
+    public BigDecimal getBalance() {
         return balance;
     }
 
-    public void setBalance(Float balance) {
+    public void setBalance(BigDecimal balance) {
         this.balance = balance;
     }
 
-    public Float getLimit() {
+    public BigDecimal getLimit() {
         return limit;
     }
 
-    public void setLimit(Float limit) {
+    public void setLimit(BigDecimal limit) {
         this.limit = limit;
     }
 }
